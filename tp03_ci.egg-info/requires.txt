@@ -1,0 +1,8 @@
+fastapi
+httpx
+
+[dev]
+pytest
+pytest-cov
+ruff
+pre-commit

@@ -1,0 +1,9 @@
+pyproject.toml
+app/__init__.py
+app/main.py
+tests/test_main.py
+tp03_ci.egg-info/PKG-INFO
+tp03_ci.egg-info/SOURCES.txt
+tp03_ci.egg-info/dependency_links.txt
+tp03_ci.egg-info/requires.txt
+tp03_ci.egg-info/top_level.txt
