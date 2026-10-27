@@ -13,20 +13,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Recuperer le code
+        uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v6
+      - name: Installer Python
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
 
-      - name: Installer les dépendances
+      - name: Installer les dependances
         run: pip install -e ".[dev]"
 
-      - name: Vérifier le code avec Ruff
+      - name: Verifier le code avec Ruff
         run: ruff check app tests
 
-      - name: Vérifier le formatage
+      - name: Verifier le formatage
         run: ruff format --check app tests
 
-      - name: Lancer les tests
-        run: pytest -v
+      - name: Executer pre-commit
+        run: pre-commit run --all-files
+
+      - name: Lancer les tests avec couverture
+        run: pytest --cov=app --cov-report=xml --cov-report=html
+
+      - name: Publier le rapport de couverture
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+          retention-days: 7
