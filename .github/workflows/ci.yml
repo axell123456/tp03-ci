@@ -10,16 +10,24 @@ permissions:
 
 jobs:
   test:
+    name: test (py${{ matrix.python }})
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
 
     steps:
       - name: Recuperer le code
         uses: actions/checkout@v5
 
-      - name: Installer Python
+      - name: Installer Python avec cache pip
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Installer les dependances
         run: pip install -e ".[dev]"
@@ -39,6 +47,6 @@ jobs:
       - name: Publier le rapport de couverture
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-py${{ matrix.python }}
           path: htmlcov/
           retention-days: 7
